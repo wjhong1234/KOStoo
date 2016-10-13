@@ -1,0 +1,18 @@
+threadtest.o: threadtest.cc \
+ /home/ugc/william.hong/457/A2/KOStoo/src/user/../testoptions.h \
+ /home/ugc/william.hong/457/A2/KOStoo/src/user/../include/syscalls.h \
+ /home/ugc/william.hong/457/A2/KOStoo/src/user/../include/kostypes.h \
+ /home/ugc/william.hong/457/A2/KOStoo/src/user/../include/pthread.h \
+ /home/ugc/william.hong/457/A2/KOStoo/src/user/../include/syscalls.h
+systest.o: systest.cc \
+ /home/ugc/william.hong/457/A2/KOStoo/src/user/../testoptions.h \
+ /home/ugc/william.hong/457/A2/KOStoo/src/user/../include/syscalls.h \
+ /home/ugc/william.hong/457/A2/KOStoo/src/user/../include/kostypes.h
+manythread.o: manythread.cc \
+ /home/ugc/william.hong/457/A2/KOStoo/src/user/../testoptions.h \
+ /home/ugc/william.hong/457/A2/KOStoo/src/user/../include/syscalls.h \
+ /home/ugc/william.hong/457/A2/KOStoo/src/user/../include/kostypes.h \
+ /home/ugc/william.hong/457/A2/KOStoo/src/user/../include/pthread.h \
+ /home/ugc/william.hong/457/A2/KOStoo/src/user/../include/syscalls.h
+kbloop.o: kbloop.cc \
+ /home/ugc/william.hong/457/A2/KOStoo/src/user/../testoptions.h

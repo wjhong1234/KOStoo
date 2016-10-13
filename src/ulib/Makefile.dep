@@ -1,0 +1,10 @@
+pthread.o: pthread.cc \
+ /home/ugc/william.hong/457/A2/KOStoo/src/ulib/../testoptions.h \
+ /home/ugc/william.hong/457/A2/KOStoo/src/ulib/../include/syscalls.h \
+ /home/ugc/william.hong/457/A2/KOStoo/src/ulib/../include/kostypes.h \
+ /home/ugc/william.hong/457/A2/KOStoo/src/ulib/../include/pthread.h \
+ /home/ugc/william.hong/457/A2/KOStoo/src/ulib/../include/syscalls.h
+libKOS.o: libKOS.cc \
+ /home/ugc/william.hong/457/A2/KOStoo/src/ulib/../testoptions.h \
+ /home/ugc/william.hong/457/A2/KOStoo/src/ulib/../include/syscalls.h \
+ /home/ugc/william.hong/457/A2/KOStoo/src/ulib/../include/kostypes.h
