@@ -133,7 +133,17 @@ void Scheduler::preempt() {               // IRQs disabled, lock count inflated
       * switchThread(target) migrates the current thread to
       * specified target's ready queue
       */
-
+	int notBusy = -1;
+	for (int i=0; i<4; i++) {
+		mword check = affinityMask >> (i);
+		if ((check & 0x1) == 1) {
+			if (notBusy == -1) {
+				notBusy = i;
+			} else if ((Machine::getScheduler(i)->readyCount) < (Machine::getScheduler(notBusy)->readyCount)) {
+					notBusy = i;
+			}
+		}
+	} target = Machine::getScheduler(notBusy);
    }
 
 #if TESTING_ALWAYS_MIGRATE

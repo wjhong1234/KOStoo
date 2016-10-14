@@ -218,6 +218,28 @@ extern "C" void _init_sig_handler(vaddr sighandler) {
   CurrProcess().setSignalHandler(sighandler);
 }
 
+extern "C" int sched_setaffinity(pid_t pid, size_t cpusetsize, cpu_set_t *mask) {
+	if (pid != 0) {
+		errno = EPERM;
+		return -1;
+	} else if (cpusetsize > 4) {
+		errno = EINVAL;
+		return -1;
+	} else {
+		LocalProcessor::getCurrThread()->setAffinityMask(*mask);
+		LocalProcessor::getScheduler()->yield();
+	} return 0;
+}
+
+extern "C" int sched_getaffinity(pid_t pid, size_t cpusetsize, cpu_set_t *mask) {
+	if (pid != 0) {
+		errno = EPERM;
+		return -1;
+	} else {
+		*mask = LocalProcessor::getCurrThread()->getAffinityMask();
+	} return 0;
+}
+
 /******* dummy functions *******/
 
 extern "C" int fstat(int fildes, struct stat *buf) {
@@ -267,7 +289,9 @@ static const syscall_t syscalls[] = {
   syscall_t(semP),
   syscall_t(semV),
   syscall_t(privilege),
-  syscall_t(_init_sig_handler)
+  syscall_t(_init_sig_handler),
+  syscall_t(sched_setaffinity),
+  syscall_t(sched_getaffinity)
 };
 
 static_assert(sizeof(syscalls)/sizeof(syscall_t) == SyscallNum::max, "syscall list error");
