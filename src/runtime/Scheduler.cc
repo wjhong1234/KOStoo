@@ -135,17 +135,15 @@ void Scheduler::preempt() {               // IRQs disabled, lock count inflated
       */
 	int notBusy = -1;
 	for (int i=0; i<4; i++) {
-		mword check = affinityMask >> (i);
-		if ((check & 0x1) == 1) {
+		if (((affinityMask >> (i)) & 0x1) == 1) {
 			if (notBusy == -1) {
 				notBusy = i;
 			} else if ((Machine::getScheduler(i)->readyCount) < (Machine::getScheduler(notBusy)->readyCount)) {
 					notBusy = i;
 			}
 		}
-	} target = Machine::getScheduler(notBusy);
+	 } target = Machine::getScheduler(notBusy);
    }
-
 #if TESTING_ALWAYS_MIGRATE
   if (!target) target = partner;
 #else /* simple load balancing */

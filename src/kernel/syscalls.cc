@@ -222,13 +222,14 @@ extern "C" int sched_setaffinity(pid_t pid, size_t cpusetsize, cpu_set_t *mask) 
 	if (pid != 0) {
 		errno = EPERM;
 		return -1;
-	} else if (cpusetsize > 4) {
+	} else if ((cpusetsize > 4) || ((*mask >> 4) != 0)) {
 		errno = EINVAL;
 		return -1;
 	} else {
 		LocalProcessor::getCurrThread()->setAffinityMask(*mask);
 		LocalProcessor::getScheduler()->yield();
-	} return 0;
+		return 0;
+	}
 }
 
 extern "C" int sched_getaffinity(pid_t pid, size_t cpusetsize, cpu_set_t *mask) {
@@ -237,7 +238,9 @@ extern "C" int sched_getaffinity(pid_t pid, size_t cpusetsize, cpu_set_t *mask) 
 		return -1;
 	} else {
 		*mask = LocalProcessor::getCurrThread()->getAffinityMask();
-	} return 0;
+		LocalProcessor::getScheduler()->yield();					//not sure if required
+		return 0;
+	} 
 }
 
 /******* dummy functions *******/
