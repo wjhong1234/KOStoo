@@ -1,5 +1,5 @@
 /******************************************************************************
-    Copyright © 2012-2015 Martin Karsten
+    Copyright ï¿½ 2012-2015 Martin Karsten
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -218,29 +218,33 @@ extern "C" void _init_sig_handler(vaddr sighandler) {
   CurrProcess().setSignalHandler(sighandler);
 }
 
+/* sched_setaffinity sets the affinity of current process to given CPUs based on the mask.*/
 extern "C" int sched_setaffinity(pid_t pid, size_t cpusetsize, cpu_set_t *mask) {
-	if (pid != 0) {
-		errno = EPERM;
+	if (pid != 0) {			//checks if pid is zero (if it's current process).
+		errno = EPERM;		//if not, set error to EPERM and return -1.
 		return -1;
-	} else if ((cpusetsize > 4) || ((*mask >> 4) != 0)) {
-		errno = EINVAL;
+	} else if (((*mask >> 4) != 0) && (cpusetsize > 4)) {	//checks if cpusetsize is too big.
+		errno = EINVAL;			//if not, set error to EINVAL and return -1.
 		return -1;
 	} else {
+		//if parameters are okay, sets the affinity mask of current thread to given mask.
 		LocalProcessor::getCurrThread()->setAffinityMask(*mask);
+		//gets the scheduler to set the CPU the process runs on accordingly.
 		LocalProcessor::getScheduler()->yield();
 		return 0;
 	}
 }
 
+/* sched_getaffinity gets the affinity of the current process and sets the mask accordingly.*/
 extern "C" int sched_getaffinity(pid_t pid, size_t cpusetsize, cpu_set_t *mask) {
-	if (pid != 0) {
-		errno = EPERM;
+	if (pid != 0) {			//checks if pid is zero (if it's current process).
+		errno = EPERM;		//if not, set error to EPERM and return -1.
 		return -1;
 	} else {
+		//if parameters are okay, gets the affinity mask of the current thread and sets the given mask value.
 		*mask = LocalProcessor::getCurrThread()->getAffinityMask();
-		LocalProcessor::getScheduler()->yield();					//not sure if required
 		return 0;
-	} 
+	}
 }
 
 /******* dummy functions *******/

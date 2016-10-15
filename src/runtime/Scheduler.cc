@@ -1,5 +1,5 @@
 /******************************************************************************
-    Copyright © 2012-2015 Martin Karsten
+    Copyright ï¿½ 2012-2015 Martin Karsten
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -123,32 +123,37 @@ void Scheduler::preempt() {               // IRQs disabled, lock count inflated
   Scheduler *target = nullptr;
   mword affinityMask = Runtime::getCurrThread()->getAffinityMask();
 
-  if( affinityMask == 0 ) {
+	if( affinityMask == 0 ) {
 	  /* use Martin's code when no affinity is set via bit mask */
 	  target =  Runtime::getCurrThread()->getAffinity();
-   }  else {
-	  /* CPSC457l: Add code here to scan the affinity mask
+   } else {
+	 /*CPSC457l: Add code here to scan the affinity mask
       * and select the processor with the smallest ready count.
       * Set the scheduler of the selected processor as target
       * switchThread(target) migrates the current thread to
       * specified target's ready queue
       */
-	int notBusy = -1;
-	for (int i=0; i<4; i++) {
-		if (((affinityMask >> (i)) & 0x1) == 1) {
+
+	/* notBusy is the core number of the LEAST busy processo (-1 indicates it has yet to be changed)
+ 	 * by the end of the loop, notBusy will contain the core number of the least busy core out of all the cores given by the mask.*/
+	 int notBusy = -1;
+	/* for loop checks each place in the mask for cores that the user wants to run the process on.*/
+	 for (int i=0; i < 4; i++) {
+		if (((affinityMask >> (i)) & 0x1) == 1) {	//this shifting and masking line determines if a specific core is demanded.
 			if (notBusy == -1) {
 				notBusy = i;
-			} else if ((Machine::getScheduler(i)->readyCount) < (Machine::getScheduler(notBusy)->readyCount)) {
-					notBusy = i;
+			} else if ((Machine::getScheduler(i)->readyCount) < (Machine::getScheduler(notBusy)->readyCount)) {	//this if else if statement determines in the loop which of the CPUs asked are the least busy.
+					notBusy = i;	//notBusy is the core number that is currently the least occupied.
 			}
 		}
-	 } target = Machine::getScheduler(notBusy);
-   }
+	 } if (notBusy != -1) {target = Machine::getScheduler(notBusy);} //sets the target to the leeast busy core.
+  }
+
 #if TESTING_ALWAYS_MIGRATE
   if (!target) target = partner;
 #else /* simple load balancing */
   if (!target) target = (partner->readyCount + 2 < readyCount) ? partner : this;
-#endif
+#endif 
   switchThread(target);
 #endif
 }

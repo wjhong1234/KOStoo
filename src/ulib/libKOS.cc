@@ -104,11 +104,11 @@ extern "C" int privilege(void* func, mword a1, mword a2, mword a3, mword a4) {
 }
 
 extern "C" int sched_setaffinity(pid_t pid, size_t cpusetsize, cpu_set_t *mask) {
-	return syscallStub(SyscallNum::sched_setaffinity, pid, cpusetsize, *mask);
+	return syscallStub(SyscallNum::sched_setaffinity, pid, cpusetsize, (mword) mask);
 }
 
 extern "C" int sched_getaffinity(pid_t pid, size_t cpusetsize, cpu_set_t *mask) {
-	return syscallStub(SyscallNum::sched_getaffinity, pid, cpusetsize, *mask);
+	return syscallStub(SyscallNum::sched_getaffinity, pid, cpusetsize, (mword) mask);
 }
 
 /******* dummy functions *******/

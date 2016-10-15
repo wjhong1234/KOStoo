@@ -1,5 +1,5 @@
 /******************************************************************************
-    Copyright © 2012-2015 Martin Karsten
+    Copyright ï¿½ 2012-2015 Martin Karsten
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -67,8 +67,8 @@ void kosMain() {
   t->start((ptr_t)keybLoop);
 #endif
   Thread::create()->start((ptr_t)UserMain);
-/*
-#if TESTING_PING_LOOP
+
+/*#if TESTING_PING_LOOP
   for (;;) {
     Timeout::sleep(Clock::now() + 1000);
     KOUT::outl("...ping...");

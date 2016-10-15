@@ -1,5 +1,5 @@
 /******************************************************************************
-    Copyright © 2012-2015 Martin Karsten
+    Copyright ï¿½ 2012-2015 Martin Karsten
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -27,10 +27,23 @@ int InitProcess() {
   Process* p2 = knew<Process>();
   p2->exec("threadtest");
   Process* p3 = knew<Process>();
-  p3->exec("manythread"); */
+  p3->exec("manythread");
   Process* p0 = knew<Process>();
-  p0->exec("scribble");
-  Process* p1 = knew<Process>();
-  p1->exec("schedAffinityTest");
+  p0->exec("scribble");*/
+
+  Process* p2 = knew<Process>();
+  p2->exec("progA");
+  Process* p3 = knew<Process>();
+  p3->exec("progB"); 
+  Process* p4 = knew<Process>();
+  p4->exec("progA");
+  Process* p5 = knew<Process>();
+  p5->exec("progC"); 
+  Process* p6 = knew<Process>();
+  p6->exec("progC");
+  Process* p7 = knew<Process>();
+  p7->exec("progB");
+  Process* p8 = knew<Process>();
+  p8->exec("schedAffinityTest");
   return 0;
 }

@@ -1,0 +1,11 @@
+CPSC 457 ASSIGNMENT 2 README
+
+BY: ERICA AGUETE 10162755
+&   WILLIAM HONG 10161808
+
+FILES MODIFIED:
+~/KOStoo/src/kernel/syscalls.cc		(contains sched_setaffinity and sched_getaffinity).
+~/KOStoo/src/runtime/Scheduler.cc	(contains modified Scheduler::preempt code).
+~/KOStoo/src/user/progA.cc		(progA is an infinite loop that occupies core 1).
+~/KOStoo/src/user/progB.cc		(progB is an infinite loop that occupies core 2).
+~/KOStoo/src/user/progC.cc		(progC is an infinite loop that occupies core 3).
